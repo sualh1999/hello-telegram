@@ -3,7 +3,7 @@ from typing import Optional
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 
-from telegram import Update, Bot
+from telegram import Update, Bot, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import Dispatcher, MessageHandler, Filters, CommandHandler
 
 TOKEN = "6153368129:AAGOrqF2egWHFwgBC02kq3icGhzCaT1gzWk"
@@ -28,7 +28,18 @@ class TelegramWebhook(BaseModel):
     poll_answer: Optional[dict]
 
 def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
+    user_id = update.message.from_user.id
+
+    markup = InlineKeyboardMarkup()
+    button_amharic = InlineKeyboardButton(text='አማርኛ', callback_data='amharic')
+    button_english = InlineKeyboardButton(text='English', callback_data='english')
+    markup.add(button_amharic, button_english)
+
+    context.bot.send_message(
+        chat_id=user_id,
+        text="Please choose your language. \nእባክዎ ቋንቋዎን ይምረጡ።",
+        reply_markup=markup
+    )
 
 def register_handlers(dispatcher):
     start_handler = CommandHandler('start', start)
@@ -58,4 +69,4 @@ def webhook(webhook_data: TelegramWebhook):
 
 @app.get("/")
 def index():
-    return {"message": "Hello Worlda"}
+    return {"message": "Hello Worldoch"}
