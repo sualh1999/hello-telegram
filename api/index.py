@@ -28,7 +28,7 @@ class TelegramWebhook(BaseModel):
     poll_answer: Optional[dict]
 
 def start(update, context):
-    user_id = update.message.from_user.id
+    user_id = update.effective_chat.id
 
     markup = InlineKeyboardMarkup()
     button_amharic = InlineKeyboardButton(text='አማርኛ', callback_data='amharic')
@@ -69,4 +69,4 @@ def webhook(webhook_data: TelegramWebhook):
 
 @app.get("/")
 def index():
-    return {"message": "Hello Worldoch"}
+    return {"message": "Hello Worldochu"}
