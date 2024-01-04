@@ -30,10 +30,20 @@ class TelegramWebhook(BaseModel):
 def start(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
 
+def help(update, context):
+    markup = InlineKeyboardMarkup()
+    button_amharic = InlineKeyboardButton(text='አማርኛ', callback_data='amharic')
+    button_english = InlineKeyboardButton(text='English', callback_data='english')
+    markup.add(button_amharic, button_english)
+    context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!",reply_markup=markup)
+
+
 
 def register_handlers(dispatcher):
     start_handler = CommandHandler('start', start)
+    lang_handler = CommandHandler('lang', help)
     dispatcher.add_handler(start_handler)
+    dispatcher.add_handler(lang_handler)
 
 @app.post("/webhook")
 def webhook(webhook_data: TelegramWebhook):
@@ -59,4 +69,4 @@ def webhook(webhook_data: TelegramWebhook):
 
 @app.get("/")
 def index():
-    return {"message": "Hello World"}
+    return {"message": "Hello Wor"}
