@@ -28,18 +28,8 @@ class TelegramWebhook(BaseModel):
     poll_answer: Optional[dict]
 
 def start(update, context):
-    user_id = update.effective_chat.id
+    context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
 
-    markup = InlineKeyboardMarkup()
-    button_amharic = InlineKeyboardButton(text='አማርኛ', callback_data='amharic')
-    button_english = InlineKeyboardButton(text='English', callback_data='english')
-    markup.add(button_amharic, button_english)
-
-    context.bot.send_message(
-        chat_id=user_id,
-        text="Please choose your language. \nእባክዎ ቋንቋዎን ይምረጡ።",
-        reply_markup=markup
-    )
 
 def register_handlers(dispatcher):
     start_handler = CommandHandler('start', start)
@@ -69,4 +59,4 @@ def webhook(webhook_data: TelegramWebhook):
 
 @app.get("/")
 def index():
-    return {"message": "Hello Worldochu"}
+    return {"message": "Hello World"}
